@@ -13,7 +13,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentScrim="@color/colorPrimaryDark"
+            app:contentScrim="@color/white"
             app:expandedTitleTextAppearance="@style/expandedBarTextStyle"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:title="Dashboard">
@@ -21,45 +21,54 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:orientation="vertical"
-                android:paddingHorizontal="20dp">
+                android:orientation="vertical">
 
-                <TextView
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="70dp"
-                    android:text="Find Amazing events happening around you."
-                    android:textColor="@android:color/white"
-                    android:textSize="30sp"
-                    android:textStyle="bold"></TextView>
+                    android:layout_margin="20dp">
 
-                <TextView
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal"
+                        android:layout_gravity="start|center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="Москва"
+                            android:textSize="17sp"
+                            android:gravity="center_vertical"/>
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/ic_arrow_down" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:src="@drawable/ic_qr_code"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end|center_vertical" />
+                </FrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/horizontalRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="480 events around you"
-                    android:textSize="20sp"
-
-                    ></TextView>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:height="50dp"
-                    android:hint="Введите текст"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="5dp"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"></EditText>
+                    android:layout_height="155dp"/>
             </LinearLayout>
 
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-
-                ></androidx.appcompat.widget.Toolbar>
+                android:layout_height="136dp">
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

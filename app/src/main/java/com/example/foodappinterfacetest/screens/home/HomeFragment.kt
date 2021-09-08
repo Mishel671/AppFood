@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodappinterfacetest.MainActivityViewModel
 import com.example.foodappinterfacetest.R
+import com.example.foodappinterfacetest.adapter.HorizontalRecyclerViewAdapter
 import com.example.foodappinterfacetest.adapter.RecyclerViewAdapter
 import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
 import com.example.foodappinterfacetest.utils.APP_ACTIVITY
@@ -22,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class HomeFragment : Fragment() {
 
     private lateinit var recyclerAdapter : RecyclerViewAdapter
+    private lateinit var horizontalRecyclerAdapter: HorizontalRecyclerViewAdapter
     lateinit var shimmerView: ShimmerFrameLayout
 
 
@@ -39,9 +41,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewModel(view : View){
+        val horizontalRecyclerView = view.findViewById<RecyclerView>(R.id.horizontalRecyclerView)
+        horizontalRecyclerAdapter = HorizontalRecyclerViewAdapter()
+        horizontalRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+
+        horizontalRecyclerAdapter = HorizontalRecyclerViewAdapter()
+        horizontalRecyclerView.adapter = horizontalRecyclerAdapter
+
+
+
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-
 
         recyclerAdapter = RecyclerViewAdapter()
         recyclerView.adapter = recyclerAdapter

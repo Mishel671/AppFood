@@ -1,5 +1,20 @@
 <resources>
     <string name="app_name">FoodAppInterfaceTest</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="energy_unit">\u00A0Ккал</string>
+    <string name="protein_unit">\u00A0г</string>
+    <string name="fat_unit">\u00A0г</string>
+    <string name="carbs_unit">\u00A0г</string>
+    <string name="fiber_unit">\u00A0г</string>
+
+
+
+    <string name="energy_text">Энергетическая ценность:\u00A0</string>
+    <string name="protein_text">Белки:\u00A0</string>
+    <string name="fat_text">Жиры:\u00A0</string>
+    <string name="carbs_text">Углеводы:\u00A0</string>
+    <string name="fiber_text">Клетчатка:\u00A0</string>
+
 </resources>

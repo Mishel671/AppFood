@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodappinterfacetest.R
 import com.example.foodappinterfacetest.models.FoodListItem
+import com.example.foodappinterfacetest.utils.APP_ACTIVITY
 import com.squareup.picasso.Picasso
 
 class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>(){
@@ -30,11 +31,11 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolde
 
         fun bind(data : FoodListItem) {
             tvTitle.text = data.name
-            tvEnergy.text = data.nutrients.energy.toString()
-            tvProtein.text = data.nutrients.protein.toString()
-            tvFat.text = data.nutrients.fat.toString()
-            tvCarbs.text = data.nutrients.carbs.toString()
-            tvFiber.text = data.nutrients.fiber.toString()
+            tvEnergy.text = APP_ACTIVITY.getString(R.string.energy_text) + data.nutrients.energy.toString() + APP_ACTIVITY.getString(R.string.energy_unit)
+            tvProtein.text = APP_ACTIVITY.getString(R.string.protein_text) + data.nutrients.protein.toString() + APP_ACTIVITY.getString(R.string.protein_unit)
+            tvFat.text = APP_ACTIVITY.getString(R.string.fat_text) + data.nutrients.fat.toString() + APP_ACTIVITY.getString(R.string.fat_unit)
+            tvCarbs.text = APP_ACTIVITY.getString(R.string.carbs_text) + data.nutrients.carbs.toString() + APP_ACTIVITY.getString(R.string.carbs_unit)
+            tvFiber.text = APP_ACTIVITY.getString(R.string.fiber_text) + data.nutrients.fiber.toString() + APP_ACTIVITY.getString(R.string.fiber_unit)
 
             val url  = data.image
 

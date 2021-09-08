@@ -22,11 +22,19 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolde
     class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val imageThumb = view.findViewById<ImageView>(R.id.imageFood)
         val tvTitle = view.findViewById<TextView>(R.id.titleFood)
-        val tvDesc = view.findViewById<TextView>(R.id.descriptionFood)
+        val tvEnergy = view.findViewById<TextView>(R.id.energy)
+        val tvProtein = view.findViewById<TextView>(R.id.protein)
+        val tvFat = view.findViewById<TextView>(R.id.fat)
+        val tvCarbs = view.findViewById<TextView>(R.id.carbs)
+        val tvFiber = view.findViewById<TextView>(R.id.fiber)
 
         fun bind(data : FoodListItem) {
             tvTitle.text = data.name
-            tvDesc.text = data.foodId
+            tvEnergy.text = data.nutrients.energy.toString()
+            tvProtein.text = data.nutrients.protein.toString()
+            tvFat.text = data.nutrients.fat.toString()
+            tvCarbs.text = data.nutrients.carbs.toString()
+            tvFiber.text = data.nutrients.fiber.toString()
 
             val url  = data.image
 

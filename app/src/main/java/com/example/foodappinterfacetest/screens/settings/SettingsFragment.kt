@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.foodappinterfacetest.R
+import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
 
 class SettingsFragment : Fragment() {
 
@@ -15,7 +16,9 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        ACTIVITY_FRAGMENT = "3"
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
+
+
 }

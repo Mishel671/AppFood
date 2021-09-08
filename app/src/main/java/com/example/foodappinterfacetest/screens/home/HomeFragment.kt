@@ -1,6 +1,7 @@
 package com.example.foodappinterfacetest.screens.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,22 +13,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.foodappinterfacetest.MainActivityViewModel
 import com.example.foodappinterfacetest.R
 import com.example.foodappinterfacetest.adapter.RecyclerViewAdapter
+import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
+import com.example.foodappinterfacetest.utils.APP_ACTIVITY
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.google.android.material.transition.MaterialFadeThrough
+import kotlinx.android.synthetic.main.activity_main.*
 
 class HomeFragment : Fragment() {
 
     private lateinit var recyclerAdapter : RecyclerViewAdapter
     lateinit var shimmerView: ShimmerFrameLayout
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+        ACTIVITY_FRAGMENT = "1"
         shimmerView = view!!.findViewById<ShimmerFrameLayout>(R.id.shimmer_view_container)
-
         initViewModel(view)
         initViewModel()
+
         return view
     }
 

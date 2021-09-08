@@ -20,6 +20,9 @@ data class FoodListItem(
     @SerializedName("nutrients")
     val nutrients: NutrientsListItem,
 
+    @SerializedName("category")
+    val category: String,
+
     val image: String)
 
 data class NutrientsListItem(

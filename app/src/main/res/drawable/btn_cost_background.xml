@@ -2,8 +2,8 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
     <solid
-        android:color="#FEF0E5"/>
+        android:color="@color/orange_btn_background"/>
 
     <corners
-        android:radius="100dp"/>
+        android:radius="50dp"/>
 </shape>

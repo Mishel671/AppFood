@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.foodappinterfacetest.R
+import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
+import com.google.android.material.transition.MaterialFadeThrough
 
 class ProfileFragment : Fragment() {
 
@@ -13,7 +15,7 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        ACTIVITY_FRAGMENT = "2"
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 }

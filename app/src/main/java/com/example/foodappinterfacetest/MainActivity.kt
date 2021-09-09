@@ -57,8 +57,6 @@ class MainActivity : AppCompatActivity() {
                     } else if(ACTIVITY_FRAGMENT.equals("3") || ACTIVITY_FRAGMENT.equals("2")){
                         navController.navigate(R.id.homeFragment, null, optionsOut)
                     }
-
-
                 }
                 R.id.profileFragment -> {
                     if(ACTIVITY_FRAGMENT.equals("1")) {
@@ -67,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                     } else if(ACTIVITY_FRAGMENT.equals("3")) {
                         navController.navigate(R.id.profileFragment, null, optionsOut)
                     }
+
                 }
                 R.id.settingsFragment -> {
                     navController.navigate(R.id.settingsFragment,null,optionsIn)

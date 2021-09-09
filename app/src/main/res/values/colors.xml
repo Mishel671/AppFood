@@ -8,7 +8,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="orange">#FF6900</color>
+    <color name="active_btm">#FF6900</color>
+    <color name="inactive_btm">#7B7B7B</color>
     <color name="orange_btn_background">#FEF0E5</color>
     <color name="orange_text">#D4742F</color>
     <color name="text_description">#6A6A6A</color>

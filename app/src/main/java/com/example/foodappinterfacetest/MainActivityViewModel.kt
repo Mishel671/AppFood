@@ -18,7 +18,7 @@ class MainActivityViewModel : ViewModel() {
             val retroInstance =  RetroInstance.getRetroInstance().create(RetroService::class.java)
             val response = retroInstance.getFoodList("82c1a9e7",
                 "a01aea996fd4b505cfe74d0563ee77d2",
-                "Pizza",
+                "Coffee",
                 "cooking",)
             val responseList = response.hints.map{it.food}
             recyclerListLiveData.postValue(responseList)

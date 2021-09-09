@@ -13,4 +13,5 @@
     <color name="orange_btn_background">#FEF0E5</color>
     <color name="orange_text">#D4742F</color>
     <color name="text_description">#6A6A6A</color>
+    <color name="active_chip">#F4CDD6</color>
 </resources>

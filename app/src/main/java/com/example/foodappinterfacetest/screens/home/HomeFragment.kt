@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,9 +15,13 @@ import com.example.foodappinterfacetest.MainActivityViewModel
 import com.example.foodappinterfacetest.R
 import com.example.foodappinterfacetest.adapter.HorizontalRecyclerViewAdapter
 import com.example.foodappinterfacetest.adapter.RecyclerViewAdapter
+import com.example.foodappinterfacetest.databinding.FragmentHomeBinding
 import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
 import com.example.foodappinterfacetest.utils.APP_ACTIVITY
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.transition.MaterialFadeThrough
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -25,6 +30,7 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerAdapter : RecyclerViewAdapter
     private lateinit var horizontalRecyclerAdapter: HorizontalRecyclerViewAdapter
     lateinit var shimmerView: ShimmerFrameLayout
+    lateinit var chipGroup: ChipGroup
 
 
     override fun onCreateView(
@@ -33,11 +39,33 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         ACTIVITY_FRAGMENT = "1"
+        InitView(view)
         shimmerView = view!!.findViewById<ShimmerFrameLayout>(R.id.shimmer_view_container)
         initViewModel(view)
         initViewModel()
 
         return view
+    }
+
+    private fun InitView(view: View){
+        chipGroup = view.findViewById(R.id.cgOptions)
+        val chipName: ArrayList<String> = arrayListOf("Pizza", "Burger", "Salad", "Coffee", "Tea")
+
+        for(i in chipName){
+            val chip = Chip(context)
+            val drawable = context?.let {
+                ChipDrawable.createFromAttributes(
+                    it, null, 0,
+                    R.style.Widget_MaterialComponents_Chip_Choice)
+            }
+            if (drawable != null) {
+                chip.setChipDrawable(drawable)
+            }
+            chip.setPadding(10,10,10,10)
+            chip.setText(i)
+            chip.setChipBackgroundColor(getResources().getColorStateList(R.drawable.chip_selection))
+            chipGroup.addView(chip)
+        }
     }
 
     private fun initViewModel(view : View){

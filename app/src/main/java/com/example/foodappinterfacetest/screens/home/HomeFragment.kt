@@ -1,13 +1,13 @@
 package com.example.foodappinterfacetest.screens.home
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
+import androidx.core.view.marginStart
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,20 +17,22 @@ import com.example.foodappinterfacetest.adapter.HorizontalRecyclerViewAdapter
 import com.example.foodappinterfacetest.adapter.RecyclerViewAdapter
 import com.example.foodappinterfacetest.databinding.FragmentHomeBinding
 import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
-import com.example.foodappinterfacetest.utils.APP_ACTIVITY
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.transition.MaterialFadeThrough
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.reflect.Type
 
 class HomeFragment : Fragment() {
 
     private lateinit var recyclerAdapter : RecyclerViewAdapter
     private lateinit var horizontalRecyclerAdapter: HorizontalRecyclerViewAdapter
+    lateinit var chip:Chip
     lateinit var shimmerView: ShimmerFrameLayout
     lateinit var chipGroup: ChipGroup
+    private var _binding: FragmentHomeBinding? = null
+    private val mBinding get() = _binding!!
 
 
     override fun onCreateView(
@@ -48,11 +50,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun InitView(view: View){
-        chipGroup = view.findViewById(R.id.cgOptions)
+        chipGroup = view.findViewById(R.id.chipGroup)
         val chipName: ArrayList<String> = arrayListOf("Pizza", "Burger", "Salad", "Coffee", "Tea")
 
         for(i in chipName){
-            val chip = Chip(context)
+            chip = Chip(context)
             val drawable = context?.let {
                 ChipDrawable.createFromAttributes(
                     it, null, 0,
@@ -61,12 +63,17 @@ class HomeFragment : Fragment() {
             if (drawable != null) {
                 chip.setChipDrawable(drawable)
             }
-            chip.setPadding(10,10,10,10)
             chip.setText(i)
+            chip.chipCornerRadius = 25F
             chip.setChipBackgroundColor(getResources().getColorStateList(R.drawable.chip_selection))
+            chip.elevation = 1F
             chipGroup.addView(chip)
         }
+        chip.setOnClickListener{
+
+        }
     }
+
 
     private fun initViewModel(view : View){
         val horizontalRecyclerView = view.findViewById<RecyclerView>(R.id.horizontalRecyclerView)

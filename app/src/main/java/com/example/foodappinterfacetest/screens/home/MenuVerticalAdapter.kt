@@ -1,4 +1,4 @@
-package com.example.foodappinterfacetest.adapter
+package com.example.foodappinterfacetest.screens.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +11,7 @@ import com.example.foodappinterfacetest.models.FoodListItem
 import com.example.foodappinterfacetest.utils.APP_ACTIVITY
 import com.squareup.picasso.Picasso
 
-class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>(){
+class MenuVerticalAdapter : RecyclerView.Adapter<MenuVerticalAdapter.MyViewHolder>(){
 
     var items = emptyList<FoodListItem>()
 

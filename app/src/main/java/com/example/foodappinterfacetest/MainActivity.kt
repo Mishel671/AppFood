@@ -2,14 +2,11 @@ package com.example.foodappinterfacetest
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.foodappinterfacetest.databinding.ActivityMainBinding
-import com.example.foodappinterfacetest.screens.home.HomeFragment
 import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
 import com.example.foodappinterfacetest.utils.APP_ACTIVITY
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -51,11 +48,11 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
-                R.id.homeFragment -> {
+                R.id.menuFragment -> {
                     if(ACTIVITY_FRAGMENT.equals("1")) {
-                        navController.navigate(R.id.homeFragment, null, optionsIn)
+                        navController.navigate(R.id.menuFragment, null, optionsIn)
                     } else if(ACTIVITY_FRAGMENT.equals("3") || ACTIVITY_FRAGMENT.equals("2")){
-                        navController.navigate(R.id.homeFragment, null, optionsOut)
+                        navController.navigate(R.id.menuFragment, null, optionsOut)
                     }
                 }
                 R.id.profileFragment -> {
@@ -67,8 +64,8 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 }
-                R.id.settingsFragment -> {
-                    navController.navigate(R.id.settingsFragment,null,optionsIn)
+                R.id.cartFragment -> {
+                    navController.navigate(R.id.cartFragment,null,optionsIn)
 
                 }
             }

@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="My_Widget.MaterialComponents.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+        <!-- Chip background color selector -->
+        <item name="chipCornerRadius">@dimen/chip_corner_radius</item>
+        <item name="chipMinHeight">@dimen/chip_height</item>
+        <item name="chipStartPadding">@dimen/chip_padding</item>
+        <item name="chipEndPadding">@dimen/chip_padding</item>
+        <item name="chipBackgroundColor">@drawable/chip_selection</item>
+    </style>
+
+    <style name="ChipTextStyle_Selected">
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/sf_ui_display_semibold</item>
+        <item name="android:textColor">@drawable/chip_text_selection</item>
+    </style>
 
     <style name="text_description_style">
         <item name="android:textSize">11sp</item>
-        <item name="android:textColor">@color/text_description</item>
+        <item name="android:textColor">@color/text_grey</item>
+        <item name="android:fontFamily">@font/sf_ui_display_semibold</item>
+    </style>
+
+    <style name="BottomNavigationView"
+        parent="Widget.Design.BottomNavigationView">
+        <item name="fontFamily">@font/sf_ui_display_semibold</item>
     </style>
 </resources>

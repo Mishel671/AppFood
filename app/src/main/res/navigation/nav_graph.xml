@@ -3,25 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/menuFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.foodappinterfacetest.screens.home.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-    </fragment>
+        android:id="@+id/menuFragment"
+        android:name="com.example.foodappinterfacetest.screens.home.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.foodappinterfacetest.screens.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.foodappinterfacetest.screens.settings.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        android:id="@+id/cartFragment"
+        android:name="com.example.foodappinterfacetest.screens.settings.CartFragment"
+        android:label="fragment_cart"
+        tools:layout="@layout/fragment_cart" />
 </navigation>

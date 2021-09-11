@@ -21,8 +21,8 @@
 
             <ImageView
                 android:id="@+id/imageFood"
-                android:layout_width="130dp"
-                android:layout_height="130dp" />
+                android:layout_width="140dp"
+                android:layout_height="140dp" />
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
@@ -36,17 +36,18 @@
                 android:id="@+id/titleFood"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Титл"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:textColor="@color/black"/>
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="@color/text_black"/>
 
             <TextView
                 android:id="@+id/energy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:layout_marginTop="5dp"
+                android:fontFamily="@font/sf_ui_display_semibold"
                 android:textColor="@color/black"/>
 
 
@@ -76,15 +77,15 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="90dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/cardView"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/btn_cost_background"
+            android:stateListAnimator="@null"
             android:text="Заказать"
             android:textAllCaps="false"
-            android:textColor="@color/orange_text"
-            android:layout_width="90dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/cardView"
-            android:stateListAnimator="@null"
-            android:background="@drawable/btn_cost_background" />
+            android:textColor="@color/red_btn" />
     </RelativeLayout>
 </FrameLayout>

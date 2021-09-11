@@ -22,6 +22,8 @@
                 android:layout_gravity="center_vertical"
                 android:text="Москва"
                 android:textSize="17sp"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/text_black"
                 android:gravity="center_vertical"/>
 
             <ImageView
@@ -56,26 +58,27 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/horizontalRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
-
                     <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginLeft="20dp"
                         android:scrollbars="none">
 
                         <com.google.android.material.chip.ChipGroup
                             android:id="@+id/chipGroup"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            app:chipSpacingHorizontal="50dp"
+                            app:chipSpacingHorizontal="@dimen/chipSpacingHorizontal"
+                            android:paddingRight="20dp"
+                            android:paddingLeft="20dp"
+                            android:paddingBottom="5dp"
                             app:singleSelection="true">
 
                         </com.google.android.material.chip.ChipGroup>
@@ -87,9 +90,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize">
                 </androidx.appcompat.widget.Toolbar>
-
-
-
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 

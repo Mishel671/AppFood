@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.example.foodappinterfacetest.R
 import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
 
-class SettingsFragment : Fragment() {
+class CartFragment : Fragment() {
 
 
 
@@ -17,7 +17,7 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         ACTIVITY_FRAGMENT = "3"
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        return inflater.inflate(R.layout.fragment_cart, container, false)
     }
 
 

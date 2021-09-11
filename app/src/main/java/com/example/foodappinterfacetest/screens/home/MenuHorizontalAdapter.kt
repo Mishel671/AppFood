@@ -1,15 +1,14 @@
-package com.example.foodappinterfacetest.adapter
+package com.example.foodappinterfacetest.screens.home
 
-import android.graphics.drawable.Drawable
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodappinterfacetest.R
-import com.example.foodappinterfacetest.models.Ad
 
-class HorizontalRecyclerViewAdapter: RecyclerView.Adapter<HorizontalRecyclerViewAdapter.MyViewHolder>(){
+class MenuHorizontalAdapter: RecyclerView.Adapter<MenuHorizontalAdapter.MyViewHolder>(){
 
     private val inflater: LayoutInflater? = null
     private val ads: List<Int> = listOf(R.drawable.ad_first, R.drawable.ad_second, R.drawable.ad_first, R.drawable.ad_second)

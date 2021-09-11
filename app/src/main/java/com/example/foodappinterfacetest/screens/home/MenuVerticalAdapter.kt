@@ -31,11 +31,11 @@ class MenuVerticalAdapter : RecyclerView.Adapter<MenuVerticalAdapter.MyViewHolde
 
         fun bind(data : FoodListItem) {
             tvTitle.text = data.name
-            tvEnergy.text = APP_ACTIVITY.getString(R.string.energy_text) + data.nutrients.energy.toString() + APP_ACTIVITY.getString(R.string.energy_unit)
-            tvProtein.text = APP_ACTIVITY.getString(R.string.protein_text) + data.nutrients.protein.toString() + APP_ACTIVITY.getString(R.string.protein_unit)
-            tvFat.text = APP_ACTIVITY.getString(R.string.fat_text) + data.nutrients.fat.toString() + APP_ACTIVITY.getString(R.string.fat_unit)
-            tvCarbs.text = APP_ACTIVITY.getString(R.string.carbs_text) + data.nutrients.carbs.toString() + APP_ACTIVITY.getString(R.string.carbs_unit)
-            tvFiber.text = APP_ACTIVITY.getString(R.string.fiber_text) + data.nutrients.fiber.toString() + APP_ACTIVITY.getString(R.string.fiber_unit)
+            tvEnergy.text = APP_ACTIVITY.getString(R.string.energy_text) + formatData(data.nutrients.energy) + APP_ACTIVITY.getString(R.string.energy_unit)
+            tvProtein.text = APP_ACTIVITY.getString(R.string.protein_text) + formatData(data.nutrients.protein) + APP_ACTIVITY.getString(R.string.protein_unit)
+            tvFat.text = APP_ACTIVITY.getString(R.string.fat_text) + formatData(data.nutrients.fat) + APP_ACTIVITY.getString(R.string.fat_unit)
+            tvCarbs.text = APP_ACTIVITY.getString(R.string.carbs_text) + formatData(data.nutrients.carbs) + APP_ACTIVITY.getString(R.string.carbs_unit)
+            tvFiber.text = APP_ACTIVITY.getString(R.string.fiber_text) + formatData(data.nutrients.fiber) + APP_ACTIVITY.getString(R.string.fiber_unit)
 
             val url  = data.image
 
@@ -43,6 +43,12 @@ class MenuVerticalAdapter : RecyclerView.Adapter<MenuVerticalAdapter.MyViewHolde
                 .load(url)
                 .into(imageThumb)
         }
+        fun formatData(value:Float):String{
+            val formatValue = String.format("%.1f", value)
+            return formatValue
+    }
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

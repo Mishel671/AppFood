@@ -11,8 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodappinterfacetest.R
 import com.example.foodappinterfacetest.databinding.FragmentMenuBinding
-import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
-import com.example.foodappinterfacetest.utils.CATEGORY_KEY
+import com.example.foodappinterfacetest.utils.*
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
@@ -21,10 +20,12 @@ import com.google.android.material.chip.ChipGroup
 class MenuFragment : Fragment() {
 
     private lateinit var recyclerVerticalAdapter : MenuVerticalAdapter
-    private lateinit var menuHorizontalRecyclerAdapter: MenuHorizontalAdapter
+    private lateinit var mHorizontalRecyclerAdapter: MenuHorizontalAdapter
+    private lateinit var mRecyclerView: RecyclerView
+    private lateinit var mHorizontalRecyclerView: RecyclerView
     lateinit var shimmerView: ShimmerFrameLayout
     lateinit var chip:Chip
-    lateinit var chipGroup: ChipGroup
+    private lateinit var mChipGroup: ChipGroup
     private var _binding: FragmentMenuBinding? = null
     private val mBinding get() = _binding!!
     private lateinit var mViewModel:MenuFragmentViewModel
@@ -34,18 +35,21 @@ class MenuFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_menu, container, false)
-        ACTIVITY_FRAGMENT = "1"
-        InitView(view)
-        shimmerView = view!!.findViewById<ShimmerFrameLayout>(R.id.shimmer_view_container)
-        initViewModel(view)
-        initViewModel()
-
-        return view
+        _binding = FragmentMenuBinding.inflate(layoutInflater,container,false)
+        return mBinding.root
     }
 
-    private fun InitView(view: View){
-        chipGroup = view.findViewById(R.id.chipGroup)
+    override fun onStart() {
+        super.onStart()
+        ACTIVITY_FRAGMENT = "1"
+        initView()
+        shimmerView = mBinding.shimmerViewContainer
+        initAdapters()
+        initViewModel()
+    }
+
+    private fun initView(){
+        mChipGroup = mBinding.chipGroup
         val chipName: ArrayList<String> = arrayListOf("Pizza", "Burger", "Salad", "Coffee", "Tea")
         for(i in chipName){
             chip = Chip(context)
@@ -53,37 +57,51 @@ class MenuFragment : Fragment() {
             chip.setChipDrawable(drawable)
             chip.setText(i)
             chip.setTextAppearanceResource(R.style.ChipTextStyle_Selected)
-            chipGroup.addView(chip)
+            if(chip.text.equals("Pizza")){
+                chip.isChecked = true
+            }
+            mChipGroup.addView(chip)
         }
-        chip = chipGroup.findViewById(CATEGORY_KEY)
-        chip.isChecked = true
-        chipGroup.setOnCheckedChangeListener(
-            ChipGroup.OnCheckedChangeListener { group, checkedId ->
+//        chip = mChipGroup.findViewById(CATEGORY_KEY)
+//        chip.isChecked = true
+        mChipGroup.setOnCheckedChangeListener(
+            ChipGroup
+                .OnCheckedChangeListener { group, checkedId ->
                 if(checkedId != -1){
-                    chip = chipGroup.findViewById(checkedId)
+                    setNewFood(checkedId)
+                    initViewModel()
                 } else {
                     chip.isChecked = true
                 }
+                Toast.makeText(APP_ACTIVITY, "Chip is " + mChipGroup.checkedChipId, Toast.LENGTH_SHORT).show();
             })
     }
 
+    fun setNewFood(chipId:Int){
+        when (chipId){
+            1 -> QUERY = "Pizza"
+            2 -> QUERY = "Burger"
+            3 -> QUERY = "Salad"
+            4 -> QUERY = "Coffee"
+            5 -> QUERY = "Tea"
+        }
+    }
+
+    private fun initAdapters(){
+        mHorizontalRecyclerView = mBinding.horizontalRecyclerView
+        mHorizontalRecyclerAdapter = MenuHorizontalAdapter()
+        mHorizontalRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+
+        mHorizontalRecyclerAdapter = MenuHorizontalAdapter()
+        mHorizontalRecyclerView.adapter = mHorizontalRecyclerAdapter
 
 
-    private fun initViewModel(view : View){
-        val horizontalRecyclerView = view.findViewById<RecyclerView>(R.id.horizontalRecyclerView)
-        menuHorizontalRecyclerAdapter = MenuHorizontalAdapter()
-        horizontalRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
 
-        menuHorizontalRecyclerAdapter = MenuHorizontalAdapter()
-        horizontalRecyclerView.adapter = menuHorizontalRecyclerAdapter
-
-
-
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+        mRecyclerView = mBinding.recyclerView
+        mRecyclerView.layoutManager = LinearLayoutManager(activity)
 
         recyclerVerticalAdapter = MenuVerticalAdapter()
-        recyclerView.adapter = recyclerVerticalAdapter
+        mRecyclerView.adapter = recyclerVerticalAdapter
 
     }
 
@@ -98,7 +116,18 @@ class MenuFragment : Fragment() {
                 Toast.makeText(activity, "Error in getting data", Toast.LENGTH_SHORT).show()
             }
         })
-        viewModel.makeApiCall()
+        if(QUERY.equals("")){
+            viewModel.makeApiCall(DEFAULT_QUERY)
+        } else {
+            viewModel.makeApiCall(QUERY)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+//        _binding = null
+//        mRecyclerView.adapter = null
+//        mHorizontalRecyclerView.adapter = null
     }
 
     companion object {

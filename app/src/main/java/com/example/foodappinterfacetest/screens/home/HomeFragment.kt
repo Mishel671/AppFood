@@ -1,6 +1,7 @@
 package com.example.foodappinterfacetest.screens.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.example.foodappinterfacetest.adapter.HorizontalRecyclerViewAdapter
 import com.example.foodappinterfacetest.adapter.RecyclerViewAdapter
 import com.example.foodappinterfacetest.databinding.FragmentHomeBinding
 import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
+import com.example.foodappinterfacetest.utils.chipName
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
@@ -51,8 +53,6 @@ class HomeFragment : Fragment() {
 
     private fun InitView(view: View){
         chipGroup = view.findViewById(R.id.chipGroup)
-        val chipName: ArrayList<String> = arrayListOf("Pizza", "Burger", "Salad", "Coffee", "Tea")
-
         for(i in chipName){
             chip = Chip(context)
             val drawable = context?.let {
@@ -65,12 +65,13 @@ class HomeFragment : Fragment() {
             }
             chip.setText(i)
             chip.chipCornerRadius = 25F
+            chip.setChipMinHeightResource(R.dimen.chip_height)
             chip.setChipBackgroundColor(getResources().getColorStateList(R.drawable.chip_selection))
             chip.elevation = 1F
+            if(i.equals("Pizza")) {
+                chip.isChecked = true
+            }
             chipGroup.addView(chip)
-        }
-        chip.setOnClickListener{
-
         }
     }
 

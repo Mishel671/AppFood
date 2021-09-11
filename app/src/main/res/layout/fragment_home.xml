@@ -61,13 +61,12 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/horizontalRecyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="155dp"/>
+                        android:layout_height="wrap_content"/>
 
 
                     <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginLeft="20dp"
                         android:scrollbars="none">

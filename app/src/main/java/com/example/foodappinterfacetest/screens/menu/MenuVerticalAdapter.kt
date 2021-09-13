@@ -1,4 +1,4 @@
-package com.example.foodappinterfacetest.screens.home
+package com.example.foodappinterfacetest.screens.menu
 
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +17,11 @@ class MenuVerticalAdapter : RecyclerView.Adapter<MenuVerticalAdapter.MyViewHolde
 
     fun setUpdatedData(items: List<FoodListItem>) {
         this.items = items
+        notifyDataSetChanged()
+    }
+
+    fun deleteData(){
+        this.items = emptyList()
         notifyDataSetChanged()
     }
 

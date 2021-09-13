@@ -1,4 +1,4 @@
-package com.example.foodappinterfacetest.screens.home
+package com.example.foodappinterfacetest.screens.menu
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

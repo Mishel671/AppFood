@@ -1,17 +1,19 @@
-package com.example.foodappinterfacetest.screens.home
+package com.example.foodappinterfacetest.screens.menu
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodappinterfacetest.R
 import com.example.foodappinterfacetest.databinding.FragmentMenuBinding
-import com.example.foodappinterfacetest.utils.*
+import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
+import com.example.foodappinterfacetest.utils.CATEGORY_KEY
+import com.example.foodappinterfacetest.utils.QUERY
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
@@ -43,13 +45,13 @@ class MenuFragment : Fragment() {
         super.onStart()
         ACTIVITY_FRAGMENT = "1"
         initView()
-        shimmerView = mBinding.shimmerViewContainer
         initAdapters()
         initViewModel()
     }
 
     private fun initView(){
         mChipGroup = mBinding.chipGroup
+        var count = 1
         val chipName: ArrayList<String> = arrayListOf("Pizza", "Burger", "Salad", "Coffee", "Tea")
         for(i in chipName){
             chip = Chip(context)
@@ -57,33 +59,50 @@ class MenuFragment : Fragment() {
             chip.setChipDrawable(drawable)
             chip.setText(i)
             chip.setTextAppearanceResource(R.style.ChipTextStyle_Selected)
-            if(chip.text.equals("Pizza")){
+            chip.setId(count)
+            count++
+            if(chip.text.equals(QUERY)){
                 chip.isChecked = true
             }
             mChipGroup.addView(chip)
         }
-//        chip = mChipGroup.findViewById(CATEGORY_KEY)
-//        chip.isChecked = true
+        chip = mChipGroup.findViewById(CATEGORY_KEY)
         mChipGroup.setOnCheckedChangeListener(
             ChipGroup
                 .OnCheckedChangeListener { group, checkedId ->
-                if(checkedId != -1){
-                    setNewFood(checkedId)
-                    initViewModel()
-                } else {
-                    chip.isChecked = true
-                }
-                Toast.makeText(APP_ACTIVITY, "Chip is " + mChipGroup.checkedChipId, Toast.LENGTH_SHORT).show();
-            })
+                    if(checkedId != -1){
+                        recyclerVerticalAdapter.deleteData()
+                        chip = mChipGroup.findViewById(checkedId)
+                        setNewFood(checkedId)
+                        initViewModel()
+                    } else {
+                        chip.isChecked = true
+                    }
+           })
     }
 
     fun setNewFood(chipId:Int){
         when (chipId){
-            1 -> QUERY = "Pizza"
-            2 -> QUERY = "Burger"
-            3 -> QUERY = "Salad"
-            4 -> QUERY = "Coffee"
-            5 -> QUERY = "Tea"
+            1 -> {
+                CATEGORY_KEY = 1
+                QUERY = "Pizza"
+            }
+            2 -> {
+                CATEGORY_KEY = 2
+                QUERY = "Burger"
+            }
+            3 ->{
+                    CATEGORY_KEY = 3
+                    QUERY = "Salad"
+            }
+            4 ->{
+                    CATEGORY_KEY = 4
+                    QUERY = "Coffee"
+            }
+            5 -> {
+                CATEGORY_KEY = 5
+                QUERY = "Tea"
+            }
         }
     }
 
@@ -106,8 +125,9 @@ class MenuFragment : Fragment() {
     }
 
     private fun initViewModel(){
-        val viewModel = ViewModelProvider(this).get(MenuFragmentViewModel::class.java)
-        viewModel.recyclerListLiveData.observe(viewLifecycleOwner, {
+        shimmerView = mBinding.shimmerViewContainer
+        mViewModel = ViewModelProvider(this).get(MenuFragmentViewModel::class.java)
+        mViewModel.recyclerListLiveData.observe(viewLifecycleOwner, {
             if(it !=null){
                 shimmerView.stopShimmer()
                 shimmerView.visibility = View.GONE
@@ -116,18 +136,14 @@ class MenuFragment : Fragment() {
                 Toast.makeText(activity, "Error in getting data", Toast.LENGTH_SHORT).show()
             }
         })
-        if(QUERY.equals("")){
-            viewModel.makeApiCall(DEFAULT_QUERY)
-        } else {
-            viewModel.makeApiCall(QUERY)
-        }
+        mViewModel.makeApiCall(QUERY)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-//        _binding = null
-//        mRecyclerView.adapter = null
-//        mHorizontalRecyclerView.adapter = null
+        _binding = null
+        mRecyclerView.adapter = null
+        mHorizontalRecyclerView.adapter = null
     }
 
     companion object {

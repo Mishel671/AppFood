@@ -1,14 +1,15 @@
 package com.example.foodappinterfacetest.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class FoodListResponse(
     @SerializedName("hints")
-    val hints: List<HintListItem>)
+    val hints: List<HintListItem>) : Serializable
 
 data class HintListItem(
     @SerializedName("food")
-    val food: FoodListItem)
+    val food: FoodListItem) : Serializable
 
 data class FoodListItem(
     @SerializedName("foodId")
@@ -23,7 +24,7 @@ data class FoodListItem(
     @SerializedName("category")
     val category: String,
 
-    val image: String)
+    val image: String) : Serializable
 
 data class NutrientsListItem(
     @SerializedName("ENERC_KCAL")
@@ -39,5 +40,5 @@ data class NutrientsListItem(
     val carbs: Float, //Углеводы
 
     @SerializedName("FIBTG")
-    val fiber: Float
-) //Клетчатка
+    val fiber: Float //Клетчатка
+) : Serializable

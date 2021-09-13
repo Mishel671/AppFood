@@ -52,7 +52,7 @@ class MenuFragment : Fragment() {
     private fun initView(){
         mChipGroup = mBinding.chipGroup
         var count = 1
-        val chipName: ArrayList<String> = arrayListOf("Pizza", "Burger", "Salad", "Coffee", "Tea")
+        val chipName: ArrayList<String> = arrayListOf("Pizza", "Nugget's", "Salad", "Coffee", "Tea")
         for(i in chipName){
             chip = Chip(context)
             val drawable = ChipDrawable.createFromAttributes(requireContext(), null, 0, R.style.My_Widget_MaterialComponents_Chip_Choice)
@@ -89,7 +89,7 @@ class MenuFragment : Fragment() {
             }
             2 -> {
                 CATEGORY_KEY = 2
-                QUERY = "Burger"
+                QUERY = "Nuggets"
             }
             3 ->{
                     CATEGORY_KEY = 3

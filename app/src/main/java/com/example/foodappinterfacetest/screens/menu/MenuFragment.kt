@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodappinterfacetest.R
 import com.example.foodappinterfacetest.databinding.FragmentMenuBinding
+import com.example.foodappinterfacetest.models.Food
 import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
 import com.example.foodappinterfacetest.utils.CATEGORY_KEY
 import com.example.foodappinterfacetest.utils.QUERY
@@ -18,7 +21,9 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MenuFragment : Fragment() {
 
     private lateinit var recyclerVerticalAdapter : MenuVerticalAdapter
@@ -43,10 +48,17 @@ class MenuFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        shimmerView.stopShimmer()
+        shimmerView.visibility = View.GONE
         ACTIVITY_FRAGMENT = "1"
         initView()
         initAdapters()
         initViewModel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        chip.isChecked = true
     }
 
     private fun initView(){
@@ -66,19 +78,19 @@ class MenuFragment : Fragment() {
             }
             mChipGroup.addView(chip)
         }
-        chip = mChipGroup.findViewById(CATEGORY_KEY)
-        mChipGroup.setOnCheckedChangeListener(
-            ChipGroup
-                .OnCheckedChangeListener { group, checkedId ->
-                    if(checkedId != -1){
-                        recyclerVerticalAdapter.deleteData()
-                        chip = mChipGroup.findViewById(checkedId)
-                        setNewFood(checkedId)
-                        initViewModel()
-                    } else {
-                        chip.isChecked = true
-                    }
-           })
+//        chip = mChipGroup.findViewById(CATEGORY_KEY)
+//        mChipGroup.setOnCheckedChangeListener(
+//            ChipGroup
+//                .OnCheckedChangeListener { group, checkedId ->
+//                    if(checkedId != -1){
+//                        recyclerVerticalAdapter.deleteData()
+//                        chip = mChipGroup.findViewById(checkedId)
+//                        setNewFood(checkedId)
+//                        initViewModel()
+//                    } else {
+//                        chip.isChecked = true
+//                    }
+//           })
     }
 
     fun setNewFood(chipId:Int){
@@ -115,28 +127,31 @@ class MenuFragment : Fragment() {
         mHorizontalRecyclerView.adapter = mHorizontalRecyclerAdapter
 
 
+        mRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@MenuFragment.context)
 
-        mRecyclerView = mBinding.recyclerView
-        mRecyclerView.layoutManager = LinearLayoutManager(activity)
-
-        recyclerVerticalAdapter = MenuVerticalAdapter()
-        mRecyclerView.adapter = recyclerVerticalAdapter
+            val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            addItemDecoration(decoration)
+            recyclerVerticalAdapter = MenuVerticalAdapter()
+            adapter = recyclerVerticalAdapter
+        }
+//        mRecyclerView = mBinding.recyclerView
+//        mRecyclerView.layoutManager = LinearLayoutManager(activity)
+//
+//        recyclerVerticalAdapter = MenuVerticalAdapter()
+//        mRecyclerView.adapter = recyclerVerticalAdapter
 
     }
 
     private fun initViewModel(){
-        shimmerView = mBinding.shimmerViewContainer
-        mViewModel = ViewModelProvider(this).get(MenuFragmentViewModel::class.java)
-        mViewModel.recyclerListLiveData.observe(viewLifecycleOwner, {
-            if(it !=null){
-                shimmerView.stopShimmer()
-                shimmerView.visibility = View.GONE
-                recyclerVerticalAdapter.setUpdatedData(it)
-            } else {
-                Toast.makeText(activity, "Error in getting data", Toast.LENGTH_SHORT).show()
-            }
+        val viewModel = ViewModelProvider(this).get(MenuFragmentViewModel::class.java)
+
+        viewModel.getAllRepositoryList().observe(this, Observer<List<Food>> {
+            recyclerVerticalAdapter.setListData(it)
+            recyclerVerticalAdapter.notifyDataSetChanged()
         })
-        mViewModel.makeApiCall(QUERY)
+
+        viewModel.makeApiCall()
     }
 
     override fun onDestroyView() {

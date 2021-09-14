@@ -10,7 +10,9 @@ import com.example.foodappinterfacetest.databinding.ActivityMainBinding
 import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
 import com.example.foodappinterfacetest.utils.APP_ACTIVITY
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 

@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.foodappinterfacetest.R
 import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
+import dagger.hilt.android.AndroidEntryPoint
+
 
 class CartFragment : Fragment() {
 

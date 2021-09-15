@@ -9,11 +9,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.foodappinterfacetest.databinding.ActivityMainBinding
 import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
 import com.example.foodappinterfacetest.utils.APP_ACTIVITY
+import com.example.foodappinterfacetest.utils.AppPreference
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     lateinit var bottomNavigation: BottomNavigationView
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         navController = findNavController(R.id.fragment)
         bottomNavigation.setupWithNavController(navController)
         bottomNavAnim()
-
+        AppPreference.getPreference(this)
     }
 
     private fun bottomNavAnim() {

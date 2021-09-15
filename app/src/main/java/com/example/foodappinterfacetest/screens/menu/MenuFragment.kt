@@ -1,10 +1,15 @@
 package com.example.foodappinterfacetest.screens.menu
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,22 +20,23 @@ import com.example.foodappinterfacetest.R
 import com.example.foodappinterfacetest.databinding.FragmentMenuBinding
 import com.example.foodappinterfacetest.models.Food
 import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
-import com.example.foodappinterfacetest.utils.CATEGORY_KEY
-import com.example.foodappinterfacetest.utils.QUERY
+import com.example.foodappinterfacetest.utils.APP_ACTIVITY
+import com.example.foodappinterfacetest.utils.AppPreference
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_menu.*
 
 @AndroidEntryPoint
 class MenuFragment : Fragment() {
 
-    private lateinit var recyclerVerticalAdapter : MenuVerticalAdapter
-    private lateinit var mHorizontalRecyclerAdapter: MenuHorizontalAdapter
+    private lateinit var verticalRecyclerAdapter : MenuVerticalAdapter
+    private lateinit var horizontalRecyclerAdapter: MenuHorizontalAdapter
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mHorizontalRecyclerView: RecyclerView
-    lateinit var shimmerView: ShimmerFrameLayout
+    lateinit var mShimmerView: ShimmerFrameLayout
     lateinit var chip:Chip
     private lateinit var mChipGroup: ChipGroup
     private var _binding: FragmentMenuBinding? = null
@@ -48,9 +54,8 @@ class MenuFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        shimmerView.stopShimmer()
-        shimmerView.visibility = View.GONE
         ACTIVITY_FRAGMENT = "1"
+        mShimmerView = mBinding.shimmerViewContainer
         initView()
         initAdapters()
         initViewModel()
@@ -60,6 +65,7 @@ class MenuFragment : Fragment() {
         super.onResume()
         chip.isChecked = true
     }
+
 
     private fun initView(){
         mChipGroup = mBinding.chipGroup
@@ -73,86 +79,122 @@ class MenuFragment : Fragment() {
             chip.setTextAppearanceResource(R.style.ChipTextStyle_Selected)
             chip.setId(count)
             count++
-            if(chip.text.equals(QUERY)){
+            if(chip.text.equals(AppPreference.getQuery())){
                 chip.isChecked = true
             }
             mChipGroup.addView(chip)
         }
-//        chip = mChipGroup.findViewById(CATEGORY_KEY)
-//        mChipGroup.setOnCheckedChangeListener(
-//            ChipGroup
-//                .OnCheckedChangeListener { group, checkedId ->
-//                    if(checkedId != -1){
-//                        recyclerVerticalAdapter.deleteData()
-//                        chip = mChipGroup.findViewById(checkedId)
-//                        setNewFood(checkedId)
-//                        initViewModel()
-//                    } else {
-//                        chip.isChecked = true
-//                    }
-//           })
+        chip = mChipGroup.findViewById(AppPreference.getCategoryKey())
+        mChipGroup.setOnCheckedChangeListener(
+            ChipGroup
+                .OnCheckedChangeListener { group, checkedId ->
+
+                    if(isOnline(this@MenuFragment.context)) {
+                        if (checkedId != -1) {
+                            chip = mChipGroup.findViewById(checkedId)
+                            setNewFood(checkedId)
+                            initViewModel()
+                        } else {
+                            chip.isChecked = true
+                        }
+                    } else {
+                        chip = mChipGroup.findViewById(AppPreference.getCategoryKey())
+                        chip.isChecked = true
+                        Toast.makeText(activity, "Internet connection required", Toast.LENGTH_SHORT).show()
+                    }
+           })
     }
 
     fun setNewFood(chipId:Int){
         when (chipId){
             1 -> {
-                CATEGORY_KEY = 1
-                QUERY = "Pizza"
+                AppPreference.setCategoryKey(1)
+                AppPreference.setQuery("Pizza")
             }
             2 -> {
-                CATEGORY_KEY = 2
-                QUERY = "Nuggets"
+                AppPreference.setCategoryKey(2)
+                AppPreference.setQuery("Nuggets")
             }
             3 ->{
-                    CATEGORY_KEY = 3
-                    QUERY = "Salad"
+                AppPreference.setCategoryKey(3)
+                AppPreference.setQuery("Salad")
             }
             4 ->{
-                    CATEGORY_KEY = 4
-                    QUERY = "Coffee"
+                AppPreference.setCategoryKey(4)
+                AppPreference.setQuery("Coffee")
             }
             5 -> {
-                CATEGORY_KEY = 5
-                QUERY = "Tea"
+                AppPreference.setCategoryKey(5)
+                AppPreference.setQuery("Tea")
             }
         }
     }
 
     private fun initAdapters(){
         mHorizontalRecyclerView = mBinding.horizontalRecyclerView
-        mHorizontalRecyclerAdapter = MenuHorizontalAdapter()
+
+        horizontalRecyclerAdapter = MenuHorizontalAdapter()
         mHorizontalRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
 
-        mHorizontalRecyclerAdapter = MenuHorizontalAdapter()
-        mHorizontalRecyclerView.adapter = mHorizontalRecyclerAdapter
+        horizontalRecyclerAdapter = MenuHorizontalAdapter()
+        mHorizontalRecyclerView.adapter = horizontalRecyclerAdapter
 
 
+        mRecyclerView = mBinding.recyclerView
         mRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@MenuFragment.context)
 
             val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
             addItemDecoration(decoration)
-            recyclerVerticalAdapter = MenuVerticalAdapter()
-            adapter = recyclerVerticalAdapter
+            verticalRecyclerAdapter = MenuVerticalAdapter()
+            adapter = verticalRecyclerAdapter
         }
-//        mRecyclerView = mBinding.recyclerView
-//        mRecyclerView.layoutManager = LinearLayoutManager(activity)
-//
-//        recyclerVerticalAdapter = MenuVerticalAdapter()
-//        mRecyclerView.adapter = recyclerVerticalAdapter
-
     }
 
     private fun initViewModel(){
-        val viewModel = ViewModelProvider(this).get(MenuFragmentViewModel::class.java)
+        mViewModel = ViewModelProvider(this).get(MenuFragmentViewModel::class.java)
+        mViewModel.getAllRepositoryList().observe(this, Observer<List<Food>> {
+            if(it != null) {
+                mShimmerView.stopShimmer()
+                mShimmerView.visibility = View.GONE
+                verticalRecyclerAdapter.setListData(it)
+                verticalRecyclerAdapter.notifyDataSetChanged()
 
-        viewModel.getAllRepositoryList().observe(this, Observer<List<Food>> {
-            recyclerVerticalAdapter.setListData(it)
-            recyclerVerticalAdapter.notifyDataSetChanged()
+            } else {
+                Toast.makeText(activity, "Error in getting data", Toast.LENGTH_SHORT).show()
+            }
         })
 
-        viewModel.makeApiCall()
+        mViewModel.makeApiCall()
     }
+
+    fun isOnline(context: Context?): Boolean {
+        if (context == null) return false
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            if (capabilities != null) {
+                when {
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                        return true
+                    }
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+                        return true
+                    }
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
+                        return true
+                    }
+                }
+            }
+        } else {
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            if (activeNetworkInfo != null && activeNetworkInfo.isConnected) {
+                return true
+            }
+        }
+        return false
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

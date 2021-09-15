@@ -8,15 +8,15 @@ import java.lang.reflect.Type
 
 data class Nutrients(
     @SerializedName("ENERC_KCAL")
-    val energy: String? = "",
+    val energy: Float = 0f,
     @SerializedName("PROCNT")
-    val protein: String? = "", //Протеины
+    val protein: Float = 0f, //Протеины
     @SerializedName("FAT")
-    val fat: String? = "", //Жиры
+    val fat: Float = 0f, //Жиры
     @SerializedName("CHOCDF")
-    val carbs: String? = "", //Углеводы
+    val carbs: Float = 0f, //Углеводы
     @SerializedName("FIBTG")
-    val fiber: String? = "")//Клетчатка
+    val fiber: Float = 0f)//Клетчатка
 
 
 class TypeConverterNutrients{

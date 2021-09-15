@@ -5,5 +5,5 @@ import com.example.foodappinterfacetest.MainActivity
 
 lateinit var APP_ACTIVITY: MainActivity
 lateinit var ACTIVITY_FRAGMENT: String
-var QUERY: String = "Pizza"
-var CATEGORY_KEY: Int = 1
+var DEF_QUERY: String = "Pizza"
+var DEF_CATEGORY_KEY: Int = 1

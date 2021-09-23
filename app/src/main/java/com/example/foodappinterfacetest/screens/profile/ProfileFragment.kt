@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import com.example.foodappinterfacetest.R
 import com.example.foodappinterfacetest.utils.ACTIVITY_FRAGMENT
 import com.google.android.material.transition.MaterialFadeThrough
+import dagger.hilt.android.AndroidEntryPoint
+
 
 class ProfileFragment : Fragment() {
 

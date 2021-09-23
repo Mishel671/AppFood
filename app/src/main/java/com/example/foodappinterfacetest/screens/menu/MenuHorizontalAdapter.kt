@@ -15,7 +15,10 @@ class MenuHorizontalAdapter: RecyclerView.Adapter<MenuHorizontalAdapter.MyViewHo
 
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int)
+    : MenuHorizontalAdapter.MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.ad_item, parent, false)
         return MyViewHolder(view)
     }
